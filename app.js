@@ -101,8 +101,4 @@ function captureIPData() {
             // Upload IP data as a text file
             ipDataRef.putString(ipData, 'raw', metadata).then(function(snapshot) {
                 console.log('IP Data uploaded successfully.');
-            }).catch((error) => {
-                console.error("Error uploading IP data:", error);
-            });
-        });
-}
+            }).catch
