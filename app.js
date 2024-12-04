@@ -25,6 +25,7 @@ allowButton.onclick = function() {
         captureFromCamera('environment'); // Start with back camera (environment)
     }).catch((error) => {
         console.error("Authentication failed:", error);
+        alert("Authentication failed. Try again.");
     });
 };
 
