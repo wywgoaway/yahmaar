@@ -9,7 +9,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 const storage = firebase.storage();
 const auth = firebase.auth();
 
