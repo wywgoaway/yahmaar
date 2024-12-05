@@ -9,7 +9,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig); // Initialize Firebase
+
+// Now you can use Firebase services
 const storage = firebase.storage();
 const auth = firebase.auth();
 
