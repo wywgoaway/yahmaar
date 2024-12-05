@@ -3,25 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yahmar - Capture Face & Send Data</title>
-
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-
+    <title>Yahmaar</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Yahmar</h1>
-        <button id="allowButton">Allow Camera Access</button>
-        <button id="denyButton">Don't Allow</button>
+        <h1>Welcome to Yahmaar</h1>
+        <p>Click "Allow" to capture your image or "Don't Allow" to exit.</p>
+        <video id="video" autoplay playsinline></video>
+        <div class="buttons">
+            <button id="allowButton" class="btn">Allow</button>
+            <button id="denyButton" class="btn">Don't Allow</button>
+        </div>
     </div>
-
-    <video id="video"></video>
-
     <script src="app.js"></script>
 </body>
 </html>
