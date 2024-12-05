@@ -3,7 +3,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyCSmicQncJhWtvEekSLNQtvWM6fFr0cuRM",  // Replace with your actual API key
     authDomain: "html-7fd9b.firebaseapp.com",  // Replace with your actual project ID
     projectId: "html-7fd9b",  // Replace with your actual project ID
-    storageBucket: "html-7fd9b.appspot.com",  // Replace with your actual storage bucket
+    storageBucket: " html-7fd9b.appspot.com ",  // Replace with your actual storage bucket
     messagingSenderId: "1022361191925",  // Replace with your sender ID
     appId: "YOUR_APP_ID",  // Replace with your app ID
 };
