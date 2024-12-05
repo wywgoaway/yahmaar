@@ -1,1 +1,68 @@
+/* Reset body margin */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+/* General body styles */
+body {
+    background-color: #000;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    text-align: center;
+}
+
+/* Container styles */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Button styles */
+button {
+    font-size: 22px;
+    padding: 20px 50px;
+    margin: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: 0.3s ease, transform 0.3s ease;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Deny button */
+#denyButton {
+    background-color: #e74c3c;
+}
+
+#denyButton:hover {
+    background-color: #c0392b;
+}
+
+/* Video styling */
+#video {
+    max-width: 90%;
+    max-height: 60vh;
+    border-radius: 10px;
+    margin-top: 30px;
+    display: none;
+}
