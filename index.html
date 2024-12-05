@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yahmaar</title>
+    <title>Yahmaar App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,13 +11,17 @@
         <h1>Yahmaar App</h1>
         <video id="video" autoplay style="display: none;"></video>
         <div class="buttons">
-            <button id="allowButton" class="btn allow">Allow</button>
+            <button id="allowButton" class="btn allow">Allow Camera</button>
             <button id="denyButton" class="btn deny">Don't Allow</button>
         </div>
     </div>
+
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js"></script>
+
+    <!-- Your Custom App Script -->
     <script src="app.js"></script>
 </body>
 </html>
