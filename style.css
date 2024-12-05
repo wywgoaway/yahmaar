@@ -1,11 +1,10 @@
-/* Reset body margin */
+/* Global styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* General body styles */
 body {
     background-color: #000;
     color: white;
@@ -18,7 +17,6 @@ body {
     text-align: center;
 }
 
-/* Container styles */
 .container {
     display: flex;
     flex-direction: column;
@@ -26,7 +24,6 @@ body {
     align-items: center;
 }
 
-/* Button styles */
 button {
     font-size: 22px;
     padding: 20px 50px;
@@ -40,7 +37,6 @@ button {
     width: 250px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    outline: none;
 }
 
 button:hover {
@@ -49,7 +45,6 @@ button:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
-/* Deny button */
 #denyButton {
     background-color: #e74c3c;
 }
@@ -58,7 +53,6 @@ button:hover {
     background-color: #c0392b;
 }
 
-/* Video styling */
 #video {
     max-width: 90%;
     max-height: 60vh;
